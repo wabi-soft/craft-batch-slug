@@ -12,6 +12,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use yii\base\Component;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
+use yii\log\Logger;
 
 /**
  * Remap service
@@ -83,9 +84,17 @@ class Remap extends Component
             ->slug($match['updatedSlug'])
             ->one();
         if($existing) {
+            /*
+             * Log that warning
+             */
+            $message = "Existing entry in section: " . $existing->section->handle . ' with slug of ' . $match['updatedSlug'];
+            Craft::getLogger()->log($message, Logger::LEVEL_INFO, 'batch-slug');
             return false;
         }
+        $message = "Updating Entry ID: " . $entry->id . " from slug of: " . $entry->slug . " to " . $match['updatedSlug'];
         $entry->slug = $match['updatedSlug'];
+        Craft::getLogger()->log($message, Logger::LEVEL_INFO, 'batch-slug');
+
         return Craft::$app->elements->saveElement($entry);
     }
 

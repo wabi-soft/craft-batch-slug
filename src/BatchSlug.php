@@ -5,7 +5,10 @@ namespace wabisoft\craftbatchslug;
 use Craft;
 use craft\base\Model;
 use craft\base\Plugin;
+use craft\log\MonologTarget;
 use craft\web\twig\variables\CraftVariable;
+use Monolog\Formatter\LineFormatter;
+use Psr\Log\LogLevel;
 use wabisoft\craftbatchslug\models\Settings;
 use wabisoft\craftbatchslug\services\Remap;
 use wabisoft\craftbatchslug\variables\BatchSlugHelper;
@@ -47,6 +50,21 @@ class BatchSlug extends Plugin
                     $variable->set('batchSlugHelper', BatchSlugHelper::class);
                 }
             );
+
+            /*
+            * @link: https://putyourlightson.com/articles/adding-logging-to-craft-plugins-with-monolog
+            */
+            Craft::getLogger()->dispatcher->targets[] = new MonologTarget([
+                'name' => 'batch-slug',
+                'categories' => ['batch-slug'],
+                'level' => LogLevel::INFO,
+                'logContext' => false,
+                'allowLineBreaks' => false,
+                'formatter' => new LineFormatter(
+                    format: "%datetime% %message%\n",
+                    dateFormat: 'Y-m-d H:i:s',
+                ),
+            ]);
         });
     }
 
