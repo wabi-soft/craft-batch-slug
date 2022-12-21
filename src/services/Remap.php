@@ -56,9 +56,15 @@ class Remap extends Component
      * @throws ElementNotFoundException
      */
     private static function processMatches($matches, $section) {
+        $count = 0;
         foreach ($matches as $match) {
-            self::updateEntrySlug($match, $section);
+            $update = self::updateEntrySlug($match, $section);
+            if($update) {
+                $count++;
+            }
         }
+        $message = "Updated " . $count . " Entries in " . $section . " out of " . count($matches) . " matches.";
+        Craft::getLogger()->log($message, Logger::LEVEL_INFO, 'batch-slug');
     }
 
 
@@ -94,8 +100,8 @@ class Remap extends Component
         $message = "Updating Entry ID: " . $entry->id . " from slug of: " . $entry->slug . " to " . $match['updatedSlug'];
         $entry->slug = $match['updatedSlug'];
         Craft::getLogger()->log($message, Logger::LEVEL_INFO, 'batch-slug');
-
-        return Craft::$app->elements->saveElement($entry);
+        Craft::$app->elements->saveElement($entry);
+        return true;
     }
 
 
