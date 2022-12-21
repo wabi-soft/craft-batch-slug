@@ -4,11 +4,14 @@
 {% block content %}
 
     {% set section = craft.app.request.param('section') %}
+    {% set volume = craft.app.request.param('volumeId') %}
     {% set asset = craft.app.request.param('assetId') %}
     {% if asset and section %}
         {% set include = 'map.twig' %}
-    {% elseif section %}
+    {% elseif volume and section %}
         {% set include = 'select.twig' %}
+    {% elseif section %}
+        {% set include = 'asset-source.twig' %}
     {% else %}
         {% set include = 'start.twig' %}
     {% endif %}

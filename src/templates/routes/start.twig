@@ -1,12 +1,15 @@
 {# Get possible sections or categories that have URLs to import into #}
+<h2>Section to Remap:</h2>
+<hr>
 {% set sections = craft.app.sections.allSections %}
 <ul>
     {% for section in sections %}
         <li>
             <a class="go" href="/{{ craft.app.request.fullUri }}?section={{ section.handle }}">
                 <strong>
-                    {{ section.name }} - {{ section.handle }}
+                    {{ section.name }}
                 </strong>
+                (<span style="font-family: monospace">{{ section.handle }}</span>)
             </a>
         </li>
     {% endfor %}

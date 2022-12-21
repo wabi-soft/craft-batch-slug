@@ -1,13 +1,19 @@
-Select Asset:
-{% set csv = craft.assets.collect() %}
+<h2>Select Asset:</h2>
+<hr>
+
+
+{% set volumeId = craft.app.request.param('volumeId') %}
+{% set csv = craft.assets.volumeId(volumeId).collect() %}
 
 <ul>
     {% for item in csv %}
         <li>
             <a class="go" href="/{{ craft.app.request.fullUri }}?section={{ craft.app.request.param('section') }}&assetId={{ item.id }}">
+
                 <strong>
-                    {{ item.title }} - {{ item.id }}
+                    {{ item.title }}
                 </strong>
+                (<span style="font-family: monospace">{{ item.filename }} | ID: {{ item.id }}</span>)
             </a>
         </li>
     {% endfor %}

@@ -1,0 +1,19 @@
+{# Get possible sections or categories that have URLs to import into #}
+<h2>Asset Volume of CSV:</h2>
+<hr>
+{% set volumes = craft.app.volumes.allVolumes %}
+
+<ul>
+    {% for volume in volumes %}
+        <li>
+            <a
+                class="go"
+                href="/{{ craft.app.request.fullUri }}?section={{ craft.app.request.param('section') }}&volumeId={{ volume.id }}">
+                <strong>
+                    {{ volume.name }}
+                </strong>
+                (<span style="font-family: monospace">{{ volume.handle }}</span>)
+            </a>
+        </li>
+    {% endfor %}
+</ul>
