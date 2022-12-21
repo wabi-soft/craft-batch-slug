@@ -81,13 +81,13 @@ class Remap extends Component
          */
         $existing = Entry::find()
             ->section($section)
-            ->slug($match['updatedSlug'])
+            ->uri($match['to'])
             ->one();
         if($existing) {
             /*
              * Log that warning
              */
-            $message = "Existing entry in section: " . $existing->section->handle . ' with slug of ' . $match['updatedSlug'];
+            $message = "Existing entry with id: " . $existing->id . " in section: " . $existing->section->handle . ' with uri of ' . $match['to'];
             Craft::getLogger()->log($message, Logger::LEVEL_INFO, 'batch-slug');
             return false;
         }
