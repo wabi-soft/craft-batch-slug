@@ -41,7 +41,7 @@ class Remap extends Component
         }
         $fullPath = $csv->getCopyOfFile();
         $rows = self::getSheet($fullPath);
-        $matches = self::collectMatches($rows, $section);
+        $matches = self::collectMatches($rows, $section, $process);
         if(!$process) {
             return $matches;
         }
@@ -99,10 +99,10 @@ class Remap extends Component
     }
 
 
-    private static function collectMatches($rows, $section) {
+    private static function collectMatches($rows, $section, $process) {
         $matches = [];
         foreach ($rows as $row) {
-            $entry = self::matchEntry($row['from'], $section);
+            $entry = self::matchEntry($row['from'], $section, $process);
 
             if($entry) {
                 $matches[] = [
@@ -117,7 +117,7 @@ class Remap extends Component
         return $matches;
     }
 
-    private static function matchEntry($url, $section) {
+    private static function matchEntry($url, $section, $process) {
         $uri = self::getUriFromUrl($url);
 
         if(!$uri) {
@@ -129,13 +129,17 @@ class Remap extends Component
             ->collect();
 
         if(!$entry || sizeof($entry) == 0) {
-            $message = "Did not find an entry with an URI of " . $uri . " in section: " . $section;
-            Craft::getLogger()->log($message, Logger::LEVEL_INFO, 'batch-slug');
+            if($process) {
+                $message = "Did not find an entry with an URI of " . $uri . " in section: " . $section;
+                Craft::getLogger()->log($message, Logger::LEVEL_INFO, 'batch-slug');
+            }
             return false;
         }
         if(sizeof($entry) > 1) {
-            $message = "More than one entry with an URI of " . $uri . " in section: " . $section;
-            Craft::getLogger()->log($message, Logger::LEVEL_INFO, 'batch-slug');
+            if($process) {
+                $message = "More than one entry with an URI of " . $uri . " in section: " . $section;
+                Craft::getLogger()->log($message, Logger::LEVEL_INFO, 'batch-slug');
+            }
             return false;
         }
         return $entry[0];
