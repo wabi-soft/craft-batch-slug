@@ -128,13 +128,14 @@ class Remap extends Component
             ->uri($uri)
             ->collect();
 
-        if(!$entry) {
+        if(!$entry || sizeof($entry) == 0) {
+            $message = "Did not find an entry with an URI of " . $uri . " in section: " . $section;
+            Craft::getLogger()->log($message, Logger::LEVEL_INFO, 'batch-slug');
             return false;
         }
         if(sizeof($entry) > 1) {
-            return false;
-        }
-        if(sizeof($entry) == 0) {
+            $message = "More than one entry with an URI of " . $uri . " in section: " . $section;
+            Craft::getLogger()->log($message, Logger::LEVEL_INFO, 'batch-slug');
             return false;
         }
         return $entry[0];
