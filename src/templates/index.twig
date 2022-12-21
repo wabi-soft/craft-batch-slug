@@ -1,0 +1,17 @@
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+{% set title = 'Batch Slugs' %}
+{% block content %}
+
+    {% set section = craft.app.request.param('section') %}
+    {% set asset = craft.app.request.param('assetId') %}
+    {% if asset and section %}
+        {% set include = 'map.twig' %}
+    {% elseif section %}
+        {% set include = 'select.twig' %}
+    {% else %}
+        {% set include = 'start.twig' %}
+    {% endif %}
+
+    {% include 'batch-slug/routes/' ~ include %}
+{% endblock %}

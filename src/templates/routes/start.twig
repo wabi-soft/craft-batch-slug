@@ -1,0 +1,13 @@
+{# Get possible sections or categories that have URLs to import into #}
+{% set sections = craft.app.sections.allSections %}
+<ul>
+    {% for section in sections %}
+        <li>
+            <a class="go" href="/{{ craft.app.request.fullUri }}?section={{ section.handle }}">
+                <strong>
+                    {{ section.name }} - {{ section.handle }}
+                </strong>
+            </a>
+        </li>
+    {% endfor %}
+</ul>

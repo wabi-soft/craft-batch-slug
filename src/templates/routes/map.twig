@@ -1,0 +1,41 @@
+{% set preview = craft.batchSlugHelper.preview %}
+
+{% if preview|length %}
+    <table class="data fullwidth ">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>From URI</th>
+            <th>To URI</th>
+            <th>Current Slug</th>
+            <th>Updated Slug</th>
+        </tr>
+        </thead>
+        {% for item in preview %}
+            {% set entry = craft.entries.id(item.id).collect.first  %}
+        <tr>
+            <td>
+                {{ item.id }}
+            </td>
+            <td>
+                <a href="{{ entry.url }}" class="go" target="_blank" ><strong>{{ entry.title }}</strong></a>
+            </td>
+            <td>{{ item.from }}</td>
+            <td>{{ item.to }}</td>
+            <td>{{ entry.slug }}</td>
+            <td>{{ item.updatedSlug }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <hr>
+    <form method="post" action="" accept-charset="UTF-8">
+        {{ csrfInput() }}
+        {{ actionInput('batch-slug/process-updates/section') }}
+        <button type="submit" class='btn btn-submit'>Remap Now</button>
+    </form>
+
+{% else %}
+    Nothing to import
+{% endif %}
