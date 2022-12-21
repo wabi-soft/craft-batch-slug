@@ -144,8 +144,16 @@ class Remap extends Component
         if(!$url) {
             return false;
         }
-        $removeSite = StringHelper::replaceFirst( $url, 'https://wabisoft.ddev.site/', '');
-        return StringHelper::trim( $removeSite);
+        $replacements = [];
+        $currentSite = Craft::$app->request->getBaseUrl();
+        $replacements =  \wabisoft\craftbatchslug\BatchSlug::getInstance()->getSettings()->urlsToRemove;
+        $removeSite = $url;
+        foreach ($replacements as $replacement) {
+            $removeSite = StringHelper::replaceFirst( $removeSite, $replacement, '');
+        }
+        $removeSite = StringHelper::trim( $removeSite, '/');
+
+        return StringHelper::trim($removeSite);
     }
 
     private static function getSlugFromString($string) {

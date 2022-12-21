@@ -10,4 +10,5 @@ use craft\base\Model;
  */
 class Settings extends Model
 {
+    public array $urlsToRemove = ['https://www.pjpower.com/'];
 }
