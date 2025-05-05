@@ -3,7 +3,7 @@
     "description": "Updates slugs based on spreadsheet",
     "type": "craft-plugin",
     "license": "proprietary",
-    "version": "1.0.5",
+    "version": "2.0.0",
     "support": {
         "email": "support@wabisoft.com",
         "issues": "https://github.com/wabi-soft/craft-batch-slug/issues?state=open",
@@ -13,8 +13,8 @@
     },
     "require": {
         "php": ">=8.0.2",
-        "craftcms/cms": "^4.3.5",
-        "phpoffice/phpspreadsheet": "^1.23"
+        "craftcms/cms": "^4.0 || ^5.0",
+        "phpoffice/phpspreadsheet": "^1.23 <6.0"
     },
     "require-dev": {
         "craftcms/ecs": "dev-main",
@@ -54,4 +54,3 @@
         }
     }
 }
-
